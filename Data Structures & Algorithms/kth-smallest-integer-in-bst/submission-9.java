@@ -1,24 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
 class Solution {
     int count = 0;
-    int result = -1;
-
+    int max;
+    int result;
     public int kthSmallest(TreeNode root, int k) {
-        dfs(root, k);
+        max = k;
+        dfs(root);
         return result;
     }
+    public boolean dfs(TreeNode node){
+        if (node == null) return true;
+        boolean left = dfs(node.left);
+        if (!left) return false;
+        
+        count++;
+        if (count == max){
+            result = node.val;
+            return false;
+        }
+        return dfs(node.right);
 
-    public boolean dfs(TreeNode node, int k) {
-    if (node == null) return false;
-
-    if (dfs(node.left, k)) return true;
-
-    count++;
-    if (count == k) {
-        result = node.val;
-        return true;
     }
-
-    return dfs(node.right, k);
-}
-
 }
